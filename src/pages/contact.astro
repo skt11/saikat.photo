@@ -1,0 +1,40 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// TODO: replace with real Instagram handle before launch
+const instagramHandle = "INSTAGRAM_HANDLE";
+---
+
+<Layout title="Contact" description="Get in touch.">
+	<section class="container contact stack">
+		<h1>Contact</h1>
+		<ul class="links">
+			<li>
+				<a href={`https://instagram.com/${instagramHandle}`} rel="me noopener" target="_blank">
+					Instagram
+				</a>
+			</li>
+			<li>
+				<a href="https://github.com/skt11" rel="me noopener" target="_blank">
+					GitHub
+				</a>
+			</li>
+		</ul>
+	</section>
+</Layout>
+
+<style>
+	.contact {
+		padding-block: var(--space-5);
+		max-width: var(--measure);
+	}
+
+	.links {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+	}
+</style>

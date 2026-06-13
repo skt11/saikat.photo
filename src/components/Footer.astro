@@ -1,0 +1,25 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="container footer-inner">
+		<span class="muted">© {year} Saikat Adhikari</span>
+		<span class="muted">Stockholm</span>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		padding-block: var(--space-4);
+		border-top: 1px solid var(--rule);
+		margin-top: var(--space-6);
+	}
+
+	.footer-inner {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+		font-size: 0.85rem;
+	}
+</style>
