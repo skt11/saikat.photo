@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import { Image } from "astro:assets";
+import { getImage } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
-import PhotoFigure from "../../components/PhotoFigure.astro";
+import ProjectGallery from "../../components/ProjectGallery.astro";
 
 export async function getStaticPaths() {
 	const projects = await getCollection("projects", ({ data }) => data.published);
@@ -14,69 +14,57 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { title, year, location, description, cover, photos } = project.data;
+const ogImg = await getImage({ src: cover, width: 1200, format: "jpg" });
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} ogImage={ogImg.src}>
 	<article class="project">
-		<header class="project-header container">
-			<h1>{title}</h1>
-			<p class="muted meta">{year} · {location}</p>
-			<p class="description">{description}</p>
+		<header class="container head">
+			<h1 transition:name={`title-${project.id}`}>{title}</h1>
+			<p class="meta">
+				<span class="meta-item">{year}</span>
+				<span class="meta-sep">·</span>
+				<span class="meta-item">{location}</span>
+				<span class="meta-sep">·</span>
+				<span class="meta-item">{photos.length} photos</span>
+			</p>
 		</header>
 
-		<div class="hero">
-			<Image
-				src={cover}
-				alt={`${title} — cover`}
-				widths={[1200, 1800, 2400, 3000]}
-				sizes="100vw"
-				loading="eager"
-				fetchpriority="high"
-			/>
-		</div>
-
-		<div class="photos container">
-			{photos.map((photo) => (
-				<PhotoFigure src={photo.src} alt={photo.alt} caption={photo.caption} />
-			))}
+		<div class="container photos">
+			<ProjectGallery photos={photos} />
 		</div>
 	</article>
 </Layout>
 
 <style>
-	.project-header {
-		padding-block: var(--space-5) var(--space-4);
-		max-width: var(--measure);
+	.head {
+		padding-block: var(--space-5) var(--space-5);
 	}
 
-	.project-header h1 {
-		margin-bottom: var(--space-1);
+	.head h1 {
+		font-size: clamp(2.5rem, 7vw, 5.25rem);
+		letter-spacing: -0.025em;
+		line-height: 0.98;
+		margin: 0 0 var(--space-3);
 	}
 
 	.meta {
-		margin: 0 0 var(--space-3);
-		font-size: 0.95rem;
-	}
-
-	.description {
+		display: flex;
+		gap: var(--space-2);
+		align-items: center;
+		font-size: 0.72rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--muted);
 		margin: 0;
+		font-variant-numeric: tabular-nums;
 	}
 
-	.hero {
-		margin-block: var(--space-4) var(--space-5);
-	}
-
-	.hero :global(img) {
-		width: 100%;
-		height: auto;
-		max-height: 85dvh;
-		object-fit: cover;
+	.meta-sep {
+		opacity: 0.5;
 	}
 
 	.photos {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-5);
-		max-width: 1100px;
+		padding-bottom: var(--space-5);
 	}
 </style>

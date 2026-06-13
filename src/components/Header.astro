@@ -1,20 +1,19 @@
 ---
+const path = Astro.url.pathname;
 const links = [
 	{ href: "/projects", label: "Projects" },
-	{ href: "/about", label: "About" },
 	{ href: "/contact", label: "Contact" },
 ];
+const isActive = (href: string) => path === href || path.startsWith(href + "/");
 ---
 
-<header class="site-header">
-	<div class="container header-inner">
+<header class="site-header" transition:persist>
+	<div class="container row">
 		<a href="/" class="brand">Saikat Adhikari</a>
 		<nav>
-			<ul>
-				{links.map((l) => (
-					<li><a href={l.href}>{l.label}</a></li>
-				))}
-			</ul>
+			{links.map((l) => (
+				<a href={l.href} class:list={["nav-link", { active: isActive(l.href) }]}>{l.label}</a>
+			))}
 		</nav>
 	</div>
 </header>
@@ -22,39 +21,56 @@ const links = [
 <style>
 	.site-header {
 		padding-block: var(--space-3);
-		border-bottom: 1px solid var(--rule);
+		background: var(--bg);
 	}
 
-	.header-inner {
+	.row {
 		display: flex;
-		align-items: baseline;
+		align-items: center;
 		justify-content: space-between;
-		gap: var(--space-3);
+		gap: var(--space-4);
 	}
 
 	.brand {
 		font-family: var(--font-serif);
+		font-optical-sizing: auto;
 		font-size: 1.1rem;
-		letter-spacing: 0.01em;
-		border-bottom: none;
+		letter-spacing: -0.005em;
+		color: var(--fg);
 	}
 
-	nav ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
+	nav {
 		display: flex;
 		gap: var(--space-3);
 	}
 
-	nav a {
-		border-bottom: none;
+	.nav-link {
+		font-size: 0.78rem;
+		letter-spacing: 0.1em;
 		color: var(--muted);
-		font-size: 0.9rem;
+		text-transform: uppercase;
 	}
 
-	nav a:hover {
+	.nav-link.active,
+	.nav-link:hover {
 		color: var(--fg);
-		opacity: 1;
+	}
+
+	@media (max-width: 480px) {
+		.row {
+			gap: var(--space-2);
+		}
+
+		.brand {
+			font-size: 1rem;
+		}
+
+		nav {
+			gap: var(--space-2);
+		}
+
+		.nav-link {
+			font-size: 0.72rem;
+		}
 	}
 </style>

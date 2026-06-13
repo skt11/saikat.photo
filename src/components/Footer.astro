@@ -1,25 +1,51 @@
 ---
 const year = new Date().getFullYear();
+
+// TODO: replace INSTAGRAM_HANDLE with real handle
+const instagramHandle = "INSTAGRAM_HANDLE";
 ---
 
 <footer class="site-footer">
-	<div class="container footer-inner">
-		<span class="muted">© {year} Saikat Adhikari</span>
-		<span class="muted">Stockholm</span>
+	<div class="container row">
+		<span>Saikat Adhikari · Stockholm</span>
+		<nav class="footer-links">
+			<a href={`https://instagram.com/${instagramHandle}`} rel="me noopener" target="_blank">Instagram</a>
+			<a href="https://github.com/skt11" rel="me noopener" target="_blank">GitHub</a>
+		</nav>
+		<span>© {year}</span>
 	</div>
 </footer>
 
 <style>
 	.site-footer {
 		padding-block: var(--space-4);
+		margin-top: var(--space-7);
+		color: var(--muted);
+		font-size: 0.72rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
 		border-top: 1px solid var(--rule);
-		margin-top: var(--space-6);
 	}
 
-	.footer-inner {
+	.row {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		gap: var(--space-3);
-		font-size: 0.85rem;
+		flex-wrap: wrap;
+	}
+
+	.footer-links {
+		display: flex;
+		gap: var(--space-3);
+	}
+
+	.footer-links a {
+		color: var(--muted);
+		transition: color 160ms ease;
+	}
+
+	.footer-links a:hover {
+		color: var(--fg);
 	}
 </style>

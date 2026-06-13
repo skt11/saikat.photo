@@ -2,8 +2,8 @@
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import hero from "../assets/carcosa/crcsa_1.webp";
+import ProjectList from "../components/ProjectList.astro";
+import hero from "../assets/stockholm-summer-2026/hero.webp";
 
 const projects = (await getCollection("projects", ({ data }) => data.published)).sort(
 	(a, b) => a.data.order - b.data.order,
@@ -14,76 +14,59 @@ const projects = (await getCollection("projects", ({ data }) => data.published))
 	<section class="hero">
 		<Image
 			src={hero}
-			alt="Carcosa — light through dark"
-			widths={[1200, 1800, 2400]}
+			alt="Summer in Stockholm — hero"
+			widths={[1200, 1800, 2400, 3000, 3600]}
 			sizes="100vw"
 			loading="eager"
 			fetchpriority="high"
 		/>
 	</section>
 
-	<section class="intro container">
-		<h1>Saikat Adhikari</h1>
-		<p class="muted">Photography, moving image, visual studies.</p>
-		<p class="muted">Stockholm.</p>
-	</section>
-
-	<section class="featured container">
-		<h2 class="section-title">Projects</h2>
-		<div class="grid">
-			{projects.map((p) => <ProjectCard project={p} />)}
-		</div>
+	<section class="container work">
+		<div class="label">Selected work</div>
+		<ProjectList projects={projects} />
 	</section>
 </Layout>
 
 <style>
 	.hero {
-		margin-bottom: var(--space-5);
+		position: relative;
+		width: 100%;
 	}
 
 	.hero :global(img) {
 		width: 100%;
 		height: auto;
-		max-height: 90dvh;
-		object-fit: cover;
+		display: block;
 	}
 
-	.intro {
-		padding-block: var(--space-3) var(--space-6);
+	.hero::before,
+	.hero::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: 10vw;
+		min-height: 40px;
+		pointer-events: none;
+		z-index: 1;
 	}
 
-	.intro h1 {
+	.hero::before {
+		top: 0;
+		background: linear-gradient(to bottom, var(--bg) 0%, transparent 100%);
+	}
+
+	.hero::after {
+		bottom: 0;
+		background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
+	}
+
+	.work {
+		padding-block: var(--space-6);
+	}
+
+	.work .label {
 		margin-bottom: var(--space-3);
-	}
-
-	.intro p {
-		margin: 0;
-	}
-
-	.featured {
-		padding-bottom: var(--space-6);
-	}
-
-	.section-title {
-		font-size: 1rem;
-		font-family: var(--font-sans);
-		font-weight: 400;
-		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		color: var(--muted);
-		margin-bottom: var(--space-4);
-	}
-
-	.grid {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: var(--space-5);
-	}
-
-	@media (min-width: 900px) {
-		.grid {
-			grid-template-columns: 1fr 1fr;
-			gap: var(--space-4);
-		}
 	}
 </style>
