@@ -12,6 +12,10 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/mdx": "^6.0.3",
     "astro": "^6.4.6"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.1"
   }
 }

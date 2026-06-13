@@ -1,0 +1,80 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+	project: CollectionEntry<"projects">;
+	priority?: boolean;
+}
+
+const { project, priority = false } = Astro.props;
+const { title, year, description, cover } = project.data;
+---
+
+<a class="card" href={`/projects/${project.id}`}>
+	<div class="cover">
+		<Image
+			src={cover}
+			alt={`${title} — cover`}
+			widths={[600, 1000, 1600]}
+			sizes="(min-width: 900px) 45vw, 100vw"
+			loading={priority ? "eager" : "lazy"}
+			{...(priority ? { fetchpriority: "high" } : {})}
+		/>
+	</div>
+	<div class="meta">
+		<h2>{title}</h2>
+		<p class="year muted">{year}</p>
+		<p class="desc">{description}</p>
+	</div>
+</a>
+
+<style>
+	.card {
+		display: block;
+		border-bottom: none;
+		color: inherit;
+	}
+
+	.cover {
+		overflow: hidden;
+		background: var(--rule);
+		aspect-ratio: 3 / 2;
+	}
+
+	.cover :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 600ms ease;
+	}
+
+	.card:hover .cover :global(img) {
+		transform: scale(1.02);
+		opacity: 1;
+	}
+
+	.meta {
+		padding-top: var(--space-2);
+	}
+
+	.meta h2 {
+		margin: 0;
+		font-size: 1.25rem;
+	}
+
+	.year {
+		margin: 0;
+		font-size: 0.85rem;
+	}
+
+	.desc {
+		margin-top: var(--space-1);
+		font-size: 0.95rem;
+		max-width: 32rem;
+	}
+
+	.card:hover {
+		opacity: 1;
+	}
+</style>

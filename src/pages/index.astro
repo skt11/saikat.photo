@@ -1,25 +1,89 @@
 ---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import hero from "../assets/carcosa/crcsa_1.webp";
+
+const projects = (await getCollection("projects", ({ data }) => data.published)).sort(
+	(a, b) => a.data.order - b.data.order,
+);
 ---
 
 <Layout>
-	<section class="hero container">
+	<section class="hero">
+		<Image
+			src={hero}
+			alt="Carcosa — light through dark"
+			widths={[1200, 1800, 2400]}
+			sizes="100vw"
+			loading="eager"
+			fetchpriority="high"
+		/>
+	</section>
+
+	<section class="intro container">
 		<h1>Saikat Adhikari</h1>
 		<p class="muted">Photography, moving image, visual studies.</p>
 		<p class="muted">Stockholm.</p>
+	</section>
+
+	<section class="featured container">
+		<h2 class="section-title">Projects</h2>
+		<div class="grid">
+			{projects.map((p) => <ProjectCard project={p} />)}
+		</div>
 	</section>
 </Layout>
 
 <style>
 	.hero {
-		padding-block: var(--space-6);
+		margin-bottom: var(--space-5);
 	}
 
-	.hero h1 {
+	.hero :global(img) {
+		width: 100%;
+		height: auto;
+		max-height: 90dvh;
+		object-fit: cover;
+	}
+
+	.intro {
+		padding-block: var(--space-3) var(--space-6);
+	}
+
+	.intro h1 {
 		margin-bottom: var(--space-3);
 	}
 
-	.hero p {
+	.intro p {
 		margin: 0;
+	}
+
+	.featured {
+		padding-bottom: var(--space-6);
+	}
+
+	.section-title {
+		font-size: 1rem;
+		font-family: var(--font-sans);
+		font-weight: 400;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--muted);
+		margin-bottom: var(--space-4);
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-5);
+	}
+
+	@media (min-width: 900px) {
+		.grid {
+			grid-template-columns: 1fr 1fr;
+			gap: var(--space-4);
+		}
 	}
 </style>
