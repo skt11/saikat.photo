@@ -3,11 +3,11 @@
 	<text
 		x="16"
 		y="23"
-		font-family="'Fraunces','Iowan Old Style','Apple Garamond',Baskerville,Georgia,serif"
+		font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,sans-serif"
 		font-size="22"
-		font-weight="500"
+		font-weight="600"
+		letter-spacing="-0.04em"
 		text-anchor="middle"
 		fill="#ede4cf"
-		font-style="italic"
 	>S</text>
 </svg>
